@@ -1,8 +1,7 @@
 import { PGlite } from '@electric-sql/pglite';
+import type { PGliteWithLive } from '@electric-sql/pglite/live';
 
-export const db = new PGlite('idb://patient-registry');
-
-export const initDB = async (): Promise<void> => {
+export const createDB = async (db: PGlite | PGliteWithLive): Promise<void> => {
   await db.exec(`
     CREATE TABLE IF NOT EXISTS patients (
       id serial PRIMARY KEY,

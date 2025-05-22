@@ -1,5 +1,7 @@
 import { useState, type ChangeEvent, type FormEvent } from 'react';
-import { insertPatient } from '../utils/insertPatient';
+import { usePGlite } from '@electric-sql/pglite-react';
+import { getInsertPatientQuery } from '../utils/patientQueries';
+import type { Patient } from '../types/patient';
 
 interface PatientFormModalProps {
   onClose: () => void;
@@ -10,7 +12,10 @@ export default function PatientFormModal({
   onClose,
   onSuccess,
 }: PatientFormModalProps) {
-  const [form, setForm] = useState({
+  const db = usePGlite();
+  const [form, setForm] = useState<
+    Omit<Patient, 'id' | 'created_at' | 'updated_at'>
+  >({
     name: '',
     age: 0,
     gender: 'Male',
@@ -26,7 +31,10 @@ export default function PatientFormModal({
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    await insertPatient(form);
+
+    const { sql, params } = getInsertPatientQuery(form);
+    await db.query(sql, params);
+
     onSuccess();
     onClose();
   };
