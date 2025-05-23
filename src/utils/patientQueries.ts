@@ -1,23 +1,21 @@
-import type { Patient } from '../types/patient';
+import type { PatientFormData } from './form.utils';
 
-export const getInsertPatientQuery = (
-  patient: Omit<Patient, 'id' | 'created_at' | 'updated_at'>
-) => {
-  const { name, age, gender, contact, address } = patient;
+export const getInsertPatientQuery = (patient: PatientFormData) => ({
+  sql: `
+    INSERT INTO patients (name, age, gender, contact, address)
+    VALUES ($1, $2, $3, $4, $5)
+    RETURNING *;
+  `,
+  params: [
+    patient.name,
+    patient.age,
+    patient.gender,
+    patient.contact,
+    patient.address,
+  ],
+});
 
-  return {
-    sql: `
-      INSERT INTO patients (name, age, gender, contact, address)
-      VALUES ($1, $2, $3, $4, $5)
-      RETURNING *;
-    `,
-    params: [name, age, gender, contact, address],
-  };
-};
-
-export const getAllPatientsQuery = () => {
-  return {
-    sql: `SELECT * FROM patients ORDER BY created_at DESC`,
-    params: [],
-  };
-};
+export const getAllPatientsQuery = () => ({
+  sql: `SELECT * FROM patients ORDER BY created_at DESC`,
+  params: [],
+});
