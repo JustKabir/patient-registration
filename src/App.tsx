@@ -10,20 +10,35 @@ import { createDB } from './lib/db';
 export default function App() {
   const [showModal, setShowModal] = useState(false);
   const [db, setDb] = useState<PGliteWithLive | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const initDb = async () => {
-      const db = await PGlite.create({
-        extensions: { live },
-        dataDir: 'idb://patient-registry',
-      });
+      try {
+        const db = await PGlite.create({
+          extensions: { live },
+          dataDir: 'idb://patient-registry',
+        });
 
-      await createDB(db);
+        await createDB(db);
 
-      setDb(db);
+        setDb(db);
+      } catch (error) {
+        console.error('Database initialization failed:', error);
+      } finally {
+        setIsLoading(false);
+      }
     };
     initDb();
   }, []);
+
+  if (isLoading || !db) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        Loading database...
+      </div>
+    );
+  }
 
   return (
     <PGliteProvider db={db}>

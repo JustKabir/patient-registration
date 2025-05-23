@@ -14,3 +14,10 @@ export const getInsertPatientQuery = (
     params: [name, age, gender, contact, address],
   };
 };
+
+export const getAllPatientsQuery = () => {
+  return {
+    sql: `SELECT * FROM patients ORDER BY created_at DESC`,
+    params: [],
+  };
+};
