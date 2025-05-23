@@ -1,11 +1,12 @@
-import { PGlite } from '@electric-sql/pglite';
-import { live, type PGliteWithLive } from '@electric-sql/pglite/live';
 import { useEffect, useState } from 'react';
+import { PGliteWorker } from '@electric-sql/pglite/worker';
+import { live, type PGliteWithLive } from '@electric-sql/pglite/live';
 import PatientTable from './components/PatientTable';
 import PatientFormModal from './components/PatientFormModal';
 import toast from 'react-hot-toast';
 import { PGliteProvider } from '@electric-sql/pglite-react';
-import { createDB } from './lib/db';
+
+const DB_NAME = 'patient-registry';
 
 export default function App() {
   const [showModal, setShowModal] = useState(false);
@@ -15,20 +16,26 @@ export default function App() {
   useEffect(() => {
     const initDb = async () => {
       try {
-        const db = await PGlite.create({
+        const workerInstance = new Worker(
+          new URL('./lib/worker.ts', import.meta.url),
+          {
+            type: 'module',
+          }
+        );
+
+        const pgWorker = await PGliteWorker.create(workerInstance, {
           extensions: { live },
-          dataDir: 'idb://patient-registry',
+          dataDir: `idb://${DB_NAME}`,
         });
 
-        await createDB(db);
-
-        setDb(db);
+        setDb(pgWorker);
       } catch (error) {
         console.error('Database initialization failed:', error);
       } finally {
         setIsLoading(false);
       }
     };
+
     initDb();
   }, []);
 

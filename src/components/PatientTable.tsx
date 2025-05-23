@@ -4,9 +4,18 @@ import { getAllPatientsQuery } from '../utils/patientQueries';
 
 const PatientTable = () => {
   const { sql, params } = getAllPatientsQuery();
-  const { rows: patients = [] } = useLiveQuery<Patient>(sql, params) || {
-    rows: [],
-  };
+  const result = useLiveQuery<Patient>(sql, params);
+
+  if (!result) {
+    return (
+      <div className="bg-white shadow rounded p-8 text-center">
+        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-blue-600 border-r-transparent mb-4"></div>
+        <p className="text-gray-600">Loading patient data...</p>
+      </div>
+    );
+  }
+
+  const { rows: patients = [] } = result;
 
   return (
     <div className="overflow-x-auto bg-white shadow rounded">
