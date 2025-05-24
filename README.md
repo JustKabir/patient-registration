@@ -1,54 +1,68 @@
-# React + TypeScript + Vite
+# Patient Registration System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a **patient data management system** built with **React (TypeScript)** and **PgLite**. It allows users to add and display patient data efficiently. The system is designed for simplicity, usability, and reliability.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- Add patient details with ease.
+- Display and manage patient data dynamically.
+- Built with modern technologies for seamless performance.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## 🚀 Live Demo
+
+Check out the live project here: [Patient Registration System](https://register-patients.vercel.app/)
+
+---
+
+## 🛠️ Set-Up Guide
+
+Follow these steps to set up the project on your local machine:
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/JustKabir/patient-registration.git
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Install Dependencies
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Using **npm**:
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+npm i
 ```
+
+Or using **yarn**:
+
+```bash
+yarn
+```
+
+### 3. Run the Project
+
+Using **yarn**:
+
+```bash
+yarn run dev
+```
+
+Using **npm**:
+
+```bash
+npm run dev
+```
+
+---
+
+## 🧰 Technologies Used
+
+- **Frontend**: React with TypeScript
+- **Database**: PgLite
+- **Build Tool**: Vite
+- **Hosting**: Vercel
+
+---
