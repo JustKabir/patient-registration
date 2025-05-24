@@ -19,12 +19,3 @@ export const handleInputChange = <T>(
   const { name, value } = e.target;
   setFormData({ ...formData, [name]: value });
 };
-
-export const validatePatientForm = (
-  formData: PatientFormData
-): string | null => {
-  if (!formData.name.trim()) {
-    return 'Patient name is required';
-  }
-  return null;
-};
