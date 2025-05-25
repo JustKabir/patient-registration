@@ -2,9 +2,8 @@ import { useState, type FormEvent } from 'react';
 import { usePGlite } from '@electric-sql/pglite-react';
 import { getInsertPatientQuery } from '../utils/patientQueries';
 import {
-  INITIAL_PATIENT_FORM,
   handleInputChange,
-  validatePatientForm,
+  INITIAL_PATIENT_FORM,
   type PatientFormData,
 } from '../utils/form.utils';
 
@@ -28,11 +27,6 @@ export default function PatientFormModal({
     setError(null);
 
     try {
-      const validationError = validatePatientForm(form);
-      if (validationError) {
-        throw new Error(validationError);
-      }
-
       const { sql, params } = getInsertPatientQuery(form);
       await db.query(sql, params);
 
@@ -65,47 +59,58 @@ export default function PatientFormModal({
             placeholder="Full Name"
             value={form.name}
             onChange={(e) => handleInputChange(e, form, setForm)}
-            required
-            className="border rounded px-3 py-2"
+            className="border rounded px-3 py-2 w-full"
             disabled={isSubmitting}
+            required
           />
+
           <input
             name="age"
             type="number"
             placeholder="Age"
             value={form.age}
             onChange={(e) => handleInputChange(e, form, setForm)}
-            className="border rounded px-3 py-2"
+            className="border rounded px-3 py-2 w-full"
             disabled={isSubmitting}
+            min="1"
+            required
           />
+
           <select
             name="gender"
             value={form.gender}
             onChange={(e) => handleInputChange(e, form, setForm)}
-            className="border rounded px-3 py-2"
+            className="border rounded px-3 py-2 w-full"
             disabled={isSubmitting}
           >
             <option>Male</option>
             <option>Female</option>
             <option>Other</option>
           </select>
+
           <input
             name="contact"
-            placeholder="Contact"
+            placeholder="Contact (10 digits)"
             value={form.contact}
             onChange={(e) => handleInputChange(e, form, setForm)}
-            className="border rounded px-3 py-2"
+            className="border rounded px-3 py-2 w-full"
             disabled={isSubmitting}
+            required
+            pattern="^[0-9]{10}$"
+            title="Contact must be exactly 10 digits"
           />
+
           <textarea
             name="address"
             placeholder="Address"
             value={form.address}
             onChange={(e) => handleInputChange(e, form, setForm)}
-            className="border rounded px-3 py-2"
+            className="border rounded px-3 py-2 w-full"
             rows={3}
             disabled={isSubmitting}
+            required
           />
+
           <div className="flex justify-end gap-2">
             <button
               type="button"
